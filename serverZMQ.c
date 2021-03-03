@@ -19,7 +19,7 @@ int main(void) {
 
         printf("message received : %s\n", buffer);
         sleep(1);          //  Do some 'work'
-        zmq_send(responder, "World", 5, 0);
+        zmq_send(responder, "World", 6, 0);
     }
     return 0;
 }

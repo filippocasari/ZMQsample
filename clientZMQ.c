@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 char *itoa(int value, char *result, int base);
 
@@ -15,7 +16,7 @@ int main(void) {
     void *context = zmq_ctx_new();
 
     void *requester = zmq_socket(context, ZMQ_REQ);
-    zmq_connect(requester, "tcp://localhost:5555");
+    zmq_connect(requester, "tcp://192.168.0.113:5555");
     char *hello_string = "hello ";
     char number;
     int request_nbr;
@@ -25,15 +26,18 @@ int main(void) {
     for (;count < 10; count++) {
         char buffer[10];
         itoa(a, &number, 10);
-
+        char buffer2[5];
         stringsent = concat(hello_string, &number);
         printf("Sending Hello %s…\n", stringsent);
-
+        unsigned long time_sending=(unsigned long)time(NULL);
         zmq_send(requester, stringsent, 8, 0);
-        char buffer2[5];
-        zmq_recv(requester, buffer2, 5, 0);
-        printf("Received World %s\n", buffer);
+        zmq_recv(requester, buffer2, 6, 0);
+        unsigned long time_receiving=(unsigned long)time(NULL);
+        unsigned long rtt=time_receiving-time_sending;
+        printf("Received :%s\n", buffer2);
+        printf("RTT: %lu\t seconds\n", rtt);
         a++;
+
 
 
     }
