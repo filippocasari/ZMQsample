@@ -9,7 +9,7 @@ int main(void) {
     void *context = zmq_ctx_new();
     void *responder = zmq_socket(context, ZMQ_REP);
     int rc = zmq_bind(responder, "tcp://*:5555");
-    char mex[10];
+
     assert (rc == 0);
 
     while (1) {

@@ -16,21 +16,25 @@ int main(void) {
 
     void *requester = zmq_socket(context, ZMQ_REQ);
     zmq_connect(requester, "tcp://localhost:5555");
-
+    char *hello_string = "hello ";
+    char number;
     int request_nbr;
-    for (request_nbr = 0; request_nbr != 10; request_nbr++) {
+    char *stringsent;
+    int count=0;
+    int a=0;
+    for (;count < 10; count++) {
         char buffer[10];
-        char *stringsent;
-        char number;
-        itoa(request_nbr, &number, 10);
-        char *hello_string = "hello ";
+        itoa(a, &number, 10);
+
         stringsent = concat(hello_string, &number);
         printf("Sending Hello %s…\n", stringsent);
 
-
-        zmq_send(requester, stringsent, 9, 0);
-        zmq_recv(requester, buffer, 10, 0);
+        zmq_send(requester, stringsent, 8, 0);
+        char buffer2[5];
+        zmq_recv(requester, buffer2, 5, 0);
         printf("Received World %s\n", buffer);
+        a++;
+
 
     }
     zmq_close(requester);
