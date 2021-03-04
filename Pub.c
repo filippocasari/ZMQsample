@@ -1,13 +1,11 @@
-//server.c
+
 #include <zmq.h>
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <stdlib.h>
-#include <time.h>
 #include "Utils.h"
 
-double pseudorand(double max);
+
 
 int main (void)
 {
@@ -15,7 +13,7 @@ int main (void)
     void *context = zmq_init(1);
 
     void *publisher = zmq_socket (context, ZMQ_PUB);
-    zmq_bind (publisher, "tcp://127.0.0.1:3333");
+    zmq_bind (publisher, "tcp://192.168.0.132:3333");
 
 
     while (1) {

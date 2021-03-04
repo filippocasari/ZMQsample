@@ -1,9 +1,11 @@
-//
-// Created by utente on 04/03/2021.
-//
+
 
 #ifndef ZMQSAMPLE_UTILS_H
 #define ZMQSAMPLE_UTILS_H
+
+#include <time.h>
+#include <stdlib.h>
+
 char *itoa(int value, char *result, int base) {
     // check that the base if valid
     if (base < 2 || base > 36) {

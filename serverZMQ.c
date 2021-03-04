@@ -15,12 +15,20 @@ int main(void) {
 
     while (1) {
         char buffer[10];
+
         zmq_recv(responder, buffer, 10, 0);
+        int index=0;
 
-
-        printf("message received : %s\n", buffer);
+        for(int i=0; i<strlen(buffer); i++){
+            if(buffer[i]=='\0'){
+                index=i+1;
+            }
+        }
+        char buffer_reply[index];
+        strcpy(buffer_reply, buffer);
+        printf("message received : %s\n", buffer_reply);
         sleep(1);          //  Do some 'work'
-        zmq_send(responder, "World", 6, 0);
+        zmq_send(responder, buffer_reply, index, 0);
     }
     return 0;
 }

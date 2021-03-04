@@ -10,7 +10,7 @@
 
 
 int main(void) {
-    printf("Connecting to hello world server…\n");
+    printf("Connecting to Echo Server…\n");
     void *context = zmq_ctx_new();
 
     void *requester = zmq_socket(context, ZMQ_REQ);
@@ -18,40 +18,39 @@ int main(void) {
     char *hello_string = "hello ";
     char number;
     char *stringsent;
-    int count=0;
-    int a=0;
+    int count = 0;
+    int a = 0;
 
 
-    for (;count < 10; count++) {
+    for (; count < 10; count++) {
 
 
         itoa(a, &number, 10);
 
 
-        char buffer2[5];
+
 
         stringsent = concat(hello_string, &number);
 
         printf("Sending Hello %s…\n", stringsent);
 
-        unsigned long time_sending=(unsigned long)time(NULL);
+        unsigned long time_sending = (unsigned long) time(NULL);
 
         zmq_send(requester, stringsent, 8, 0);
-        zmq_recv(requester, buffer2, 6, 0);
+        zmq_recv(requester, stringsent, strlen(stringsent), 0);
 
-        unsigned long time_receiving=(unsigned long)time(NULL);
+        unsigned long time_receiving = (unsigned long) time(NULL);
 
-        unsigned long rtt=time_receiving-time_sending;
+        unsigned long rtt = time_receiving - time_sending;
 
-        printf("Received :%s\n", buffer2);
+        printf("Received :%s\n", stringsent);
         printf("RTT: %lu\t seconds\n", rtt);
         a++;
 
 
-
     }
+
     zmq_close(requester);
-    //zmq_ctx_destroy (context);
     zmq_term(context);
     return 0;
 }
