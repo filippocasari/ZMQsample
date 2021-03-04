@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
-#include "Utils.h"
+#include "../Utils.h"
 
 
 
@@ -13,7 +13,7 @@ int main (void)
     void *context = zmq_init(1);
 
     void *publisher = zmq_socket (context, ZMQ_PUB);
-    zmq_bind (publisher, "tcp://192.168.0.132:3333");
+    zmq_bind (publisher, "tcp://127.0.0.1:3333");
 
 
     while (1) {

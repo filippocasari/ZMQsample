@@ -16,7 +16,7 @@ int main (int argc, char *argv [])
     printf ("Collecting updates from server...\n");
     void *subscriber = zmq_socket (context, ZMQ_SUB);
     //127.0.0.1, 192.168.0.113
-    rc = zmq_connect (subscriber, "tcp://192.168.0.113:3333");
+    rc = zmq_connect (subscriber, "tcp://127.0.0.1:3333");
     zmq_setsockopt( subscriber, ZMQ_SUBSCRIBE, "", 0 );
     assert (rc == 0);
 
