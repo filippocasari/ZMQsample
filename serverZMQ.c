@@ -7,7 +7,7 @@
 int main(void) {
     //  Socket to talk to clients
     void *context = zmq_ctx_new();
-
+    puts("starting Echo server...\n");
     void *responder = zmq_socket(context, ZMQ_REP);
     int rc = zmq_bind(responder, "tcp://*:5555");
 

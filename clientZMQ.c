@@ -43,7 +43,7 @@ int main(void) {
 
         unsigned long rtt = time_receiving - time_sending;
 
-        printf("Received :%s\n", stringsent);
+        printf("Echo Received :%s\n", stringsent);
         printf("RTT: %lu\t seconds\n", rtt);
         a++;
 
