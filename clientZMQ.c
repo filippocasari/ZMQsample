@@ -6,9 +6,7 @@
 #include <string.h>
 #include <time.h>
 
-char *itoa(int value, char *result, int base);
-
-char *concat(const char *s1, const char *s2);
+#include "Utils.h"
 
 
 int main(void) {
@@ -16,24 +14,35 @@ int main(void) {
     void *context = zmq_ctx_new();
 
     void *requester = zmq_socket(context, ZMQ_REQ);
-    zmq_connect(requester, "tcp://192.168.0.113:5555");
+    zmq_connect(requester, "tcp://127.0.0.1:5555");
     char *hello_string = "hello ";
     char number;
-    int request_nbr;
     char *stringsent;
     int count=0;
     int a=0;
+
+
     for (;count < 10; count++) {
-        char buffer[10];
+
+
         itoa(a, &number, 10);
+
+
         char buffer2[5];
+
         stringsent = concat(hello_string, &number);
+
         printf("Sending Hello %s…\n", stringsent);
+
         unsigned long time_sending=(unsigned long)time(NULL);
+
         zmq_send(requester, stringsent, 8, 0);
         zmq_recv(requester, buffer2, 6, 0);
+
         unsigned long time_receiving=(unsigned long)time(NULL);
+
         unsigned long rtt=time_receiving-time_sending;
+
         printf("Received :%s\n", buffer2);
         printf("RTT: %lu\t seconds\n", rtt);
         a++;
@@ -47,38 +56,3 @@ int main(void) {
     return 0;
 }
 
-char *itoa(int value, char *result, int base) {
-    // check that the base if valid
-    if (base < 2 || base > 36) {
-        *result = '\0';
-        return result;
-    }
-
-    char *ptr = result, *ptr1 = result, tmp_char;
-    int tmp_value;
-
-    do {
-        tmp_value = value;
-        value /= base;
-        *ptr++ = "zyxwvutsrqponmlkjihgfedcba9876543210123456789abcdefghijklmnopqrstuvwxyz"[35 +
-                                                                                           (tmp_value - value * base)];
-    } while (value);
-
-    // Apply negative sign
-    if (tmp_value < 0) *ptr++ = '-';
-    *ptr-- = '\0';
-    while (ptr1 < ptr) {
-        tmp_char = *ptr;
-        *ptr-- = *ptr1;
-        *ptr1++ = tmp_char;
-    }
-    return result;
-}
-
-char *concat(const char *s1, const char *s2) {
-    char *result = malloc(strlen(s1) + strlen(s2) + 1); // +1 for the null-terminator
-    // in real code you would check for errors in malloc here
-    strcpy(result, s1);
-    strcat(result, s2);
-    return result;
-}
